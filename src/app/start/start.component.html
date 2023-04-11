@@ -1,0 +1,218 @@
+<div style="margin-top: 50px" class="container">
+  <div class="row">
+    <!-- ANA KISIM SECILECEK OLAN BASLIKK BURDAN SECILECEK  -->
+    <div *ngIf="div" class="col-lg-3 col-sm-12">
+      <h5 style="color: grey">Arama Başlıklar</h5>
+      <button
+        (click)="gomesaj('message')"
+        type="button"
+        class="btn btn-secondary"
+      >
+        message</button
+      ><br /><br />
+      <button (click)="gotype()" type="button" class="btn btn-secondary">
+        type</button
+      ><br /><br />
+      <button (click)="gotimes()" type="button" class="btn btn-secondary">
+        timestamp
+      </button>
+    </div>
+
+    <!--MESAJ İÇİN ÇIKACAK OLAN MODAL -->
+    <!-- YAPILDI -->
+    <div *ngIf="modalmesaj" class="col-lg-3 col-sm-12">
+      <h5 style="color: grey">Aranan Veri</h5>
+      <div *ngIf="veri">
+        <p>{{ veri }} değeri için aranan veri</p>
+      </div>
+      <form>
+        <input
+          name="something"
+          class="form-control"
+          placeholder="Aranan Veri"
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+          [(ngModel)]="filterText"
+        />
+        <br />
+      </form>
+      <button (click)="kapat()" type="button" class="btn btn-dark">
+        Kapat
+      </button>
+    </div>
+
+    <!--type ıcın benzersız verıler gelecek-->
+    <div *ngIf="modaltype" class="col-lg-3 col-sm-12">
+      <div ngbDropdown class="dropdown">
+        <button
+          ngbDropdownToggle
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Type
+        </button>
+        <ul ngbDropdownMenu class="dropdown-menu">
+          <!-- Burdan donmeye baslayacak -->
+          <div *ngFor="let veriler of typeler">
+            <li>
+              <a
+                ngbDropdownItem
+                class="dropdown-item"
+                (click)="verisee(veriler)"
+                >{{ veriler }}</a
+              >
+            </li>
+          </div>
+        </ul>
+      </div>
+      <br />
+      <button (click)="kapat()" type="button" class="btn btn-dark">
+        Kapat
+      </button>
+    </div>
+
+    <!--timestamp ıkı zaman aralıgı gırılecek-->
+    <div *ngIf="modaltimes" class="col-lg-3 col-sm-12">
+      <h5 style="color: grey">Aranan Zaman aralıkları</h5>
+      <form>
+        <label for="">1.zaman</label>
+        <input class="form-control" type="text" (keyup)="onKeyUp($event)" />
+        <p>Girilen zaman: {{ timeone }}</p>
+        <br />
+        <label for="">2.zaman</label>
+        <input class="form-control" type="text" (keyup)="onKeyUpiki($event)" />
+        <p>Girilen zaman: {{ timetwo }}</p>
+        <br />
+        <button (click)="timesfor()" type="button" class="btn btn-info">
+          Ara
+        </button>
+      </form>
+      <br />
+      <button (click)="kapat()" type="button" class="btn btn-dark">
+        Kapat
+      </button>
+    </div>
+
+    <!-- veri yansıtılacak kısım -->
+    <div *ngIf="asil" class="col-lg-9 col-sm-12">
+      <h5 style="color: #007bff">ARAMA SONUCU ÇIKAN VERİLER</h5>
+      <div
+        *ngFor="let allveri of allveri | startFilter : filterText"
+        class="d-flex text-muted pt-3"
+      >
+        <svg
+          class="bd-placeholder-img flex-shrink-0 me-2 rounded"
+          width="32"
+          height="32"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Placeholder: 32x32"
+          preserveAspectRatio="xMidYMid slice"
+          focusable="false"
+        >
+          <rect width="100%" height="100%" fill="#007bff" />
+        </svg>
+        <p>
+          <strong class="d-block text-gray-dark">
+            id: {{ allveri.timestamp }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            message: {{ allveri.message }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            type: {{ allveri.type }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            description: {{ allveri.description }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            flight_id: {{ allveri.flight_id }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            timestamp: {{ allveri.timestamp }}
+          </strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ıstenılen typelerı gostermek ıcın kullanılan kısım -->
+    <div *ngIf="typelericin" class="col-lg-9 col-sm-12">
+      <h5 style="color: #007bff">ARAMA SONUCU ÇIKAN VERİLER</h5>
+      <div *ngFor="let typegetir of typegetir" class="d-flex text-muted pt-3">
+        <svg
+          class="bd-placeholder-img flex-shrink-0 me-2 rounded"
+          width="32"
+          height="32"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Placeholder: 32x32"
+          preserveAspectRatio="xMidYMid slice"
+          focusable="false"
+        >
+          <rect width="100%" height="100%" fill="#007bff" />
+        </svg>
+        <p>
+          <strong class="d-block text-gray-dark">
+            id: {{ typegetir.timestamp }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            message: {{ typegetir.message }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            type: {{ typegetir.type }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            description: {{ typegetir.description }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            flight_id: {{ typegetir.flight_id }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            timestamp: {{ typegetir.timestamp }}
+          </strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ıstenılen zaman aralıklarını gostermek ıcın kullandım burayı-->
+    <div *ngIf="fortime" class="col-lg-9 col-sm-12">
+      <h5 style="color: #007bff">ARAMA SONUCU ÇIKAN VERİLER</h5>
+      <div *ngFor="let time of time" class="d-flex text-muted pt-3">
+        <svg
+          class="bd-placeholder-img flex-shrink-0 me-2 rounded"
+          width="32"
+          height="32"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Placeholder: 32x32"
+          preserveAspectRatio="xMidYMid slice"
+          focusable="false"
+        >
+          <rect width="100%" height="100%" fill="#007bff" />
+        </svg>
+        <p>
+          <strong class="d-block text-gray-dark">
+            id: {{ time.timestamp }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            message: {{ time.message }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            type: {{ time.type }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            description: {{ time.description }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            flight_id: {{ time.flight_id }}
+          </strong>
+          <strong class="d-block text-gray-dark">
+            timestamp: {{ time.timestamp }}
+          </strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
