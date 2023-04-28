@@ -82,7 +82,7 @@ app.get("/api/time/:timeone/:timetwo", (req, res) => {
 
 // TODO secilen type ıcın verı yansıtılacak sımdı
 app.get("/api/fortype/get/:veri", (req, res) => {
-  console.log("secilen veri: " + req.params.veri);
+  console.log("yollanan verı : " + req.params.veri);
   titra_shema.find({ type: req.params.veri }).then((posts) => {
     res.send(posts);
   });
